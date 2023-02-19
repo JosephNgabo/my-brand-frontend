@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../CSS/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet" />
@@ -25,7 +25,7 @@
           <div class="user" id="userDiv">
             Admin
             <span>
-              <img src="./images/ant-design_caret-down-filled.png" alt="" />
+              <img src="./IMAGES/bx_menu.png" alt="" />
             </span>
             <div class="user-profile">
               <h4>
@@ -34,7 +34,7 @@
             </div>
           </div>
           <div class="mobile-nav">
-            <img src="./bx_menu.png" alt="" id="showMenu" />
+            <img src="./CSS/bx_menu.png" alt="" id="showMenu" />
           </div>
         </div>
       </div>
@@ -108,7 +108,7 @@
                   <th>subject</th>
                   <th>conditions</th>
                   <th>messages</th>
-                  <th><img id ="img" src="./delete.png" style=" height: 40px;width: 40px;" onclick="deletePost('${element.id}')"></th>
+                  <th><img id ="img" src="./IMAGES/delete.png" style=" height: 40px;width: 40px;" onclick="deletePost('${element.id}')"></th>
                 </tr>
               </thead>
               <tbody id="feedback">
@@ -148,7 +148,7 @@ oldMessages.forEach((message, index) => {
 `
 )})
   </script>
-<script src="./dashboard.js"></script>
+<script src="./JS/dashboard.js"></script>
 </body>
 
 </html>
