@@ -101,30 +101,42 @@
       </div>
     </div>
   </section>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.3.3/dist/axios.min.js"></script>
   <script>
     const getArticles = () => {
-        let articles = JSON.parse(localStorage.getItem("articles")) ?? []
-        let articlesContainer = document.getElementById("result")
-        let data = ''
+      let articles=[]
+      let articlesContainer = document.getElementById("result")
+      axios.get('https://my-brand-production-1062.up.railway.app/api/blog/')
+  .then(response => {
+    console.log(response.data);
+    articles=response.data
+    let data = ''
         articles.forEach(element => {
             data += `<div class="blogItem">
-                <p><img src="${element.image}"
-                    style="width:400px;height:230px;border-radius: 2rem 2rem 0 0;margin-top:2rem;"></p>
+                <p><img src="${element.imageUrl}"
+                    style="width:200px;height:230px;border-radius: 2rem 2rem 0 0;margin-top:2rem;"></p>
                             <p class="card-title">
                                 ${element.title}</p>
                                 <p class="card-text"> ${element.body}</p>
                                 <p style="text-align:center;margin-bottom:1rem;"></p>
-                              <a href='./new-blog.html' onclick="updatePost('${element.id}','${element.title}','${element.body}')">  <img src="./IMAGE/kindpng_1541177.png" style=" height: 40px;width: 40px;"></a>
-                            <img id ="img" src="../IMAGE/delete.png" style=" height: 40px;width: 40px;" onclick="deletePost('${element.id}')">
+                              <a href='./new-blog.html' onclick="updatePost('${element.id}','${element.title}','${element.body}')">  <img src="./IMAGES/kindpng_1541177.png" style=" height: 40px;width: 40px;"></a>
+                            <img id ="img" src="./IMAGES/delete.png" style=" height: 40px;width: 40px;" onclick="deletePost('${element.id}')">
 
                             </h2>
                             </div>
                         `
         });
         articlesContainer.innerHTML = data
+  })
+  .catch(error => {
+    console.log(error);
+  });
         }
         getArticles()
-    
+
+
+  
+
         const deletePost=(id)=>{
           let articles = JSON.parse(localStorage.getItem("articles")) ?? []
           const newArticles=articles.filter(item=>item.id!=id)

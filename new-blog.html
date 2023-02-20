@@ -106,6 +106,7 @@
       </div>
     </div>
   </section>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.3.3/dist/axios.min.js"></script>
 <script src="./JS/new-blog.js"></script>
 <script>
   // function update (id) {
@@ -135,11 +136,14 @@
       
   //   }
   // }
+  axios.patch('https://my-brand-production-1062.up.railway.app/api/docs/update/{id}', {
+  completed: true
+})
+  .then(response => {
+    console.log(response.data);
+    updateArticle=response.data
 
-
-
-
-  const updateArticle=JSON.parse(localStorage.getItem('updateArticle')) || null
+  })
   if(updateArticle ==null){
    
     document.getElementById('newArticles').addEventListener('submit', (event) => {
@@ -158,6 +162,7 @@
     event.preventDefault()
     const title=document.getElementById('title').value
     const body=document.getElementById('body').value
+    
     let articles=JSON.parse(localStorage.getItem('articles')) ?? []
     const article=articles.filter(item=>item.id==updateArticle.id)
     articles=articles.filter(item=>item.id!=updateArticle.id)
@@ -178,6 +183,11 @@
     // localStorage.setItem('articles',JSON.stringify(newArticles))
     // window.open('view-blog.html','_self')
     // return false
+    .catch(error => {
+    console.log(error);
+  });
+
+
 
    console.log(article)
     
