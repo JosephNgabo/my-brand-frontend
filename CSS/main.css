@@ -706,10 +706,10 @@ input[type = submit]{
   border-radius: 5px;
   border: 0;
   color: #fff;
-  background: #036F90;
+  background: #04222c;
 }
 .form-box input[type="submit"]:hover {
-  background: #036F90;
+  background: #04222c;
 }
 .error {
   display: block;

@@ -130,7 +130,7 @@
   <script>
     const messagesData = document.getElementById('feedback');
 let oldMessages = JSON.parse(localStorage.getItem('messages'))?? []
-console.log(oldMessages);
+
 oldMessages.forEach((message, index) => {
     messagesData.insertAdjacentHTML(
       "beforebegin",
@@ -147,6 +147,8 @@ oldMessages.forEach((message, index) => {
 </tr>
 `
 )})
+
+localStorage.removeItem("updateArticle");
   </script>
 <script src="./JS/dashboard.js"></script>
 </body>

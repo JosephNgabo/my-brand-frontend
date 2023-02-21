@@ -119,8 +119,8 @@
                                 ${element.title}</p>
                                 <p class="card-text"> ${element.body}</p>
                                 <p style="text-align:center;margin-bottom:1rem;"></p>
-                              <a href='./new-blog.html' onclick="updatePost('${element.id}','${element.title}','${element.body}')">  <img src="./IMAGES/kindpng_1541177.png" style=" height: 40px;width: 40px;"></a>
-                            <img id ="img" src="./IMAGES/delete.png" style=" height: 40px;width: 40px;" onclick="deletePost('${element.id}')">
+                              <a href='./new-blog.html' onclick="updatePost('${element._id}','${element.title}','${element.body}')">  <img src="./IMAGES/kindpng_1541177.png" style=" height: 40px;width: 40px;"></a>
+                            <img id ="img" src="./IMAGES/delete.png" style=" height: 40px;width: 40px;" onclick="deletePost('${element._id}')">
 
                             </h2>
                             </div>
@@ -138,11 +138,23 @@
   
 
         const deletePost=(id)=>{
-          let articles = JSON.parse(localStorage.getItem("articles")) ?? []
-          const newArticles=articles.filter(item=>item.id!=id)
-          localStorage.setItem('articles',JSON.stringify(newArticles))
-          location.reload()
+          const user = JSON.parse(localStorage.getItem("tempLog"))
+          var myHeaders = new Headers();
+myHeaders.append("Authorization", `Bearer ${user.token}`);
+
+var requestOptions = {
+  method: 'DELETE',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch(`https://my-brand-production-1062.up.railway.app/api/blog/${id}`, requestOptions)
+  .then(response => response.text())
+  .then(result =>  location.reload())
+ 
+  .catch(error => console.log('error', error));  
         }
+
         const updatePost=(id,title,body)=>{
           const artcle={
             id,
@@ -152,6 +164,7 @@
           localStorage.setItem('updateArticle',JSON.stringify(artcle))
         }
 
+        localStorage.removeItem("updateArticle");
     </script>
 
 

@@ -19,10 +19,10 @@ form.addEventListener("submit" ,async (e)=>{
  console.log(user);
     try {
       const response=   await  axios.post("https://my-brand-production-1062.up.railway.app/api/users/register",user)
+
         console.log(response);
         localStorage.setItem("user", JSON.stringify(response.data.user) )
-        alert('User created successfully')
-        window.location.href="login.html"
+        window.location.href="./login.html"
     } catch (error) {
         console.log(error?.response?.data?.message);
         document.getElementById("error").innerHTML=error?.response?.data?.message;
@@ -30,6 +30,18 @@ form.addEventListener("submit" ,async (e)=>{
 
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     // function signupForm (data){

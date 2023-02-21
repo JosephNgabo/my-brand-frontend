@@ -1,60 +1,53 @@
 
 
-let form  =  document.querySelector("#form")
-let email  =  document.querySelector("#email")
-let password =  document.querySelector("#pwd")
+let form = document.querySelector("#form")
+let email = document.querySelector("#email")
+let password = document.querySelector("#pwd")
 
 console.log(form);
 
-form.addEventListener("submit" ,async (e)=>{
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-console.log(email.value,password.value);
+  
+  const userInputs = {
+    email: email.value,
+    password: password.value,
+  }
+  // if (email === "" || password === "") {
+  //   // popContact("please fill all fields");
+  //   console.log("please fill out fields")
+  // }
 
-const user = {
-  email:email.value,
-  password:password.value,
-}
-console.log(user)
 
-try {
-  const response=   await  axios.post("https://my-brand-production-1062.up.railway.app/api/users/login",user)
-  console.log(response);  
-  console.log(response.data.user.role);
+  try {
+    const response = await axios.post("https://my-brand-production-1062.up.railway.app/api/users/login", userInputs)
+    console.log(response)
+    const { user } = response.data
+    
+    window.localStorage.setItem("tempLog", JSON.stringify(user))
 
-    if (user == "admin" && pass =="pwd") {
-              window.location.href= "dashboard.html"
-              
-              }
-              // console.log(Admin);
-              // window.localStorage.setItem("tempLog", JSON.stringify(Admin))
-            
-            else{
-                  if(email === "" || password ===""){
-                      // popContact("please fill all fields");
-                      console.log("please fill out fields")
-                  }
-                  else{
-                      for (let i=0; i<users.length; i++){
-                      if(users[i].email == user && users[i].pwd == pass){
-                          // window.localStorage.setItem("tempLog", JSON.stringify(users[i]))
-                          let link = "./index.html"
-                          window.location.href = link
-                          console.log(users[i]);
-                          break;
-                      }
-                    }
-                  }
-                
-    localStorage.setItem("user", JSON.stringify(response.data.user) )
-    alert('User Signed in  successfully')
-    window.location.href="index.html"
-}
-}
- catch (error) {
-    console.log(error?.response?.data?.message);
-    document.getElementById("error").innerHTML=error?.response?.data?.message;
-}
+    if (user.role == 'admin') {
+      window.location.href = "./dashboard.html"
+
+    }
+    else {
+
+      let link = "./index.html"
+      window.location.href = link
+    }
+
+
+
+    // localStorage.setItem("user", JSON.stringify(response.data.user) )
+    // alert('User Signed in  successfully')
+    // window.location.href="index.html"
+  }
+
+  catch (error) {
+    console.log(error);
+    document.getElementById("error").innerHTML = error?.response?.data?.message;
+  }
 
 
 })
@@ -97,10 +90,10 @@ try {
 //                 }
 //             }
 //         }
-    
 
 
-        
-    
+
+
+
 
 
