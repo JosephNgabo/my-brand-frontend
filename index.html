@@ -321,6 +321,8 @@ const getArticles = () => {
                             ${element.title}</p>
                             <p class="card-text"> ${element.body}</p>
                             <p style="text-align:center;margin-bottom:1rem;">
+                            <span class="btn-span"><a href="blog.html" class="btn">Learnmore</a></span>
+
                             <div class="feedback" id="feedback-comment">
                             <div class="field">
                             <div class="comment-form">
@@ -364,8 +366,7 @@ const getArticles = () => {
 
 
 
-
-  var myHeaders = new Headers();
+    var myHeaders = new Headers();
   const user = JSON.parse(localStorage.getItem("tempLog"))
 myHeaders.append("Authorization", `Bearer ${user.token}`);
 myHeaders.append("Content-Type", "application/json");
@@ -404,23 +405,21 @@ fetch(`https://my-brand-production-1062.up.railway.app/api/blog/comment/${id}`, 
 
   })
 
-  // var getComment = JSON.parse(localStorage.getItem("comments"));
-  // for (let i=0; i< getComment.length; i++){
-  //   let prg1 = document.createElement('p');
-  //   let prg2 = document.createElement('p');
-  //   let div = document.createElement('div' );
-  //   div.classList.add("addComment")
-  //   let text1 = document.createTextNode(getComment[i].username);
-  //   let text2 = document.createTextNode(getComment[i].message);
-  //   prg1.appendChild(text1);
-  //   prg2.appendChild(text2);
-  //   div.innerHTML=prg1.outerHTML+prg2.outerHTML
-  //   const commentData = document.getElementById('feedback-comment');
-  //   commentData.appendChild(div);
-  // } 
 
-
-
+  var getComment = JSON.parse(localStorage.getItem("comments"));
+  for (let i=0; i< getComment.length; i++){
+    let prg1 = document.createElement('p');
+    let prg2 = document.createElement('p');
+    let div = document.createElement('div' );
+    div.classList.add("addComment")
+    let text1 = document.createTextNode(getComment[i].username);
+    let text2 = document.createTextNode(getComment[i].message);
+    prg1.appendChild(text1);
+    prg2.appendChild(text2);
+    div.innerHTML=prg1.outerHTML+prg2.outerHTML
+    const commentData = document.getElementById('feedback-comment');
+    commentData.appendChild(div);
+  } 
 
 
 </script>

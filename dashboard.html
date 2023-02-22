@@ -129,8 +129,22 @@
   </section>
   <script>
     const messagesData = document.getElementById('feedback');
-let oldMessages = JSON.parse(localStorage.getItem('messages'))?? []
+// let oldMessages = JSON.parse(localStorage.getItem('messages'))?? []
+var myHeaders = new Headers();
+myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjM5Y2RmNjFmNzk4ODEwNDEyNDc1MSIsImlhdCI6MTY3NzA1NjA3MywiZXhwIjoxNjc5NjQ4MDczfQ.50Nbndsm8FV51qTuo-TChI0Bbqj8EpRqWXRhP9GFI7M");
 
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch("https://my-brand-production-1062.up.railway.app/api/message/", requestOptions)
+  .then(response => response.text())
+  .then(result => {
+    const oldMessages = JSON.parse(result).messages
+    console.log(oldMessages)
+    
 oldMessages.forEach((message, index) => {
     messagesData.insertAdjacentHTML(
       "beforebegin",
@@ -143,10 +157,15 @@ oldMessages.forEach((message, index) => {
     <td>${message.message}</td>
      <td>${message.conditions}</td>
     <td><a href="mailto:${message.email}">Reply</a></td>
-    <td><i class="fa fa-trash-o delete" data-id=${message.id}></i></td>
+    <td><i class="fa fa-trash-o delete" data-id=${message._id}></i></td>
 </tr>
 `
 )})
+
+  }
+    )
+  .catch(error => console.log('error', error));
+
 
 localStorage.removeItem("updateArticle");
   </script>
