@@ -27,14 +27,12 @@
         </nav>
     </header>
     
-    <!-- <section class="post-header">
+    <section class="post-header">
         <div class="header-content post-container">
         <a href="index.html" class="back-home">Back To Home</a>
-        <h1 class="header-title" id="title">How to crate best UI website</h1>
-        <img src="../IMAGES/PIC4.jpg" alt="" class="header-img" id="image">
+        <h1 class="header-title" id="title"></h1>
+        <img src="" alt="" class="header-img" id="image">
         <p class="content-blog">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex repellendus similique ad porro labore quasi nemo, placeat consectetur totam harum impedit reiciendis mollitia? Dignissimos praesentium nisi porro, quam animi odio!
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex repellendus similique ad porro labore quasi nemo, placeat consectetur totam harum impedit reiciendis mollitia? Dignissimos praesentium nisi porro, quam animi odi
         </p>
         <div class="comment-form">
           <form action="" id="comment-form">
@@ -42,8 +40,9 @@
               id="errors-success"
               style="width: 80%; padding: 0"
             ></div>
-  
-            <div class="field">
+            <div id="result">
+
+            <!-- <div class="field">
               <label for="email" class="comment">Comment:</label>
               <textarea
                 id="comment-message"
@@ -66,46 +65,161 @@
               
               
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
               </div>
           
-    </section> -->
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.3.3/dist/axios.min.js"></script>
+    
 <script>
 
+// const getArticles = () => {
+    
+    let articles= []
+    let articlesContainer = document.getElementById("result")
+    let parameter= new URLSearchParams(window.location.search)
+    let id = parameter.get("page")
+    console.log(id);
+    
 
-var myHeaders = new Headers();
-myHeaders.append("Authorization", `Bearer ${user.token} `);
+    axios.get(`https://my-brand-production-1062.up.railway.app/api/blog/${id}`)
+    .then(response =>{
+      console.log(response.data.comment);
+      articles=response.data
+    const yoo= response.data.comment
 
-var requestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow'
+    let data = ''
+    // articles.forEach(element => {
+        data += `<div class="blogItem">
+            <p><img src="${articles.imageUrl}"
+                style="width:50rem;height:45rem;border-radius: 2rem 2rem 0 0;margin-top:2rem;"></p>
+                        <h2 style="background:#036F90;width:40px;padding:2rem;border-radius:12rem;">
+                        <p class="card-title">
+                            ${articles.title}</p>
+                            <p class="card-text"> ${articles.body}</p>
+                            <p style="text-align:center;margin-bottom:1rem;">
+                            <div class="feedback" id="feedback-comment">
+                            <div class="field">
+                            <div class="comment-form">
+          <form action="" id="comment-form">
+            <div
+              id="errors-success"
+              style="width: 80%; padding: 0"
+            ></div>
+              <label for="email" class="comment">Comment:</label>
+              <textarea
+                id="comment-message"
+                placeholder="Add your comment"
+                type="email"
+              ></textarea>
+            </div>
+           
+
+
+          </form>
+          <button
+              class="btns"
+              id="submit-btn"
+            >
+              send
+            </button>
+                        </p>
+                        </h2>
+                        </div>
+                    `
+
+    
+    articlesContainer.innerHTML = data
+// getting comments
+for (let i=0; i< yoo.length; i++){
+    let prg1 = document.createElement('p');
+    let prg2 = document.createElement('p');
+    let div = document.createElement('div' );
+    div.classList.add("addComment")
+    let text1 = document.createTextNode(yoo[i].username);
+    let text2 = document.createTextNode(yoo[i].comment);
+    prg1.appendChild(text1);
+    prg2.appendChild(text2);
+    div.innerHTML=prg1.outerHTML+prg2.outerHTML
+    const commentData = document.getElementById('feedback-comment');
+    commentData.appendChild(div);
+  }
+
+    // sending commet
+    const comment= document.querySelector('#comment-message')
+    let btn = document.getElementById("submit-btn");
+btn.addEventListener('click',(e)=>{
+    e.preventDefault()
+
+    var raw ={
+  comment:comment.value, 
 };
 
-fetch("https://my-brand-production-1062.up.railway.app/api/blog/{id}/", requestOptions)
-  .then(response => response.text())
-  .then(result => 
-  
-  {
-    
-    console.log(result)
-  
+var myHeaders = new Headers();
+const user = JSON.parse(localStorage.getItem("tempLog"))
+myHeaders.append("Authorization", `Bearer ${user.token}`);
+myHeaders.append("Content-Type", "application/json");
 
-
-    const display = () => {
-      console.log(article)
-      document.getElementById('image').innerHTML = `<img src="${article.imageUrl}" alt="" />`;
-      document.getElementById('title').innerHTML = article.title
-      document.getElementById('body').innerHTML = article.content
-      document.getElementById('date').innerHTML = article.postedDate
-
-      document.getElementById('commentIcon').innerHTML = article.comments.length
-    }  
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body:JSON.stringify(raw) ,
+  redirect: 'follow'
+};
+fetch(`https://my-brand-production-1062.up.railway.app/api/blog/comment/${id}`, requestOptions)
+  .then(response =>{return response.json()})
+  .then(result => {console.log(result)
+window.location.reload()
 })
+
   .catch(error => console.log('error', error));
+})
+});
+// }
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
+//     }
+    // getArticles()
+
+
+
+
+
     
+  
+
+    
+
+
+
+//   btn.addEventListener("click", (e) => {
+//     console.log("herro");
+//     e.preventDefault();
+//     var message = document.getElementById('comment-message').value;
+//   //  let comments = JSON.parse(localStorage.getItem("comments") || "[]");
+//     var commentData = {
+//         comment:comment,
+//     };
+//     comments.unshift(commentData)
+
+//     var data = JSON.stringify(comments);
+//     // localStorage.setItem("comments",data);
+//     message = ""
+//     alert("message sent successfull");
+//     window.location.reload();
+
+//   })
+
+
+ 
+
+
+
+
 
 </script>
 

@@ -75,7 +75,7 @@
             <form
               enctype="multipart/form-data"
               id="newArticles"
-              onsubmit="return submits()"
+              onsubmit="return submitss()"
             >
               <div>
                 <h4>Blog Title</h4>
@@ -124,33 +124,68 @@
     <script src="https://cdn.jsdelivr.net/npm/axios@1.3.3/dist/axios.min.js"></script>
     <script src="./JS/newblog.js"></script>
     <script>
-      // function update (id) {
-      //   let blog =JSON.parse(window.localStorage.getItem("Blogs"));
-      //   const title = document.getElementById('title').value
-      //   const cover = window.localStorage.getItem("tempImage") || blog [id].cover
-      //   const body = quill.root.innerHTML
-      //   if (title.length > 500) {
-      //     popContact("Title too long ", "red")
-      //   } else {
-      //     const blogData = {
-      //       title: title,
-      //       cover: cover,
-      //       body: body,
-      //     }
-      //     if (id > -1) {
-      //       blog.splice(id, 1);
-      //       window.localStorage.setItem("blogs", JSON.stringify(blog));
-      //     }
-      //     blog.push(blogData);
-      //     localStorage.setItem('Blogs', JSON.stringify(blog));
-      //     var element = document.getElementById("frm");
-      //     element.reset()
-      //       popContact("Blog edited", "green")
-      //       window.localStorage.removeItem(tempImage)
-      //       location.href = "./view-blog.html"
+     
 
-      //   }
-      // }
+
+     const submitss = () => {
+      console.log('submissiom')
+    const user = JSON.parse(localStorage.getItem("tempLog"))
+
+    var title = document.getElementById('title').value;
+    var body = document.getElementById('body').value;
+    var image = document.getElementById('photo');
+
+    if (!title || !image || !body) {
+        return false;
+    }
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${user.token}`);
+
+    var formdata = new FormData();
+    formdata.append("title", title);
+    formdata.append("body", body);
+    formdata.append("photo", image.files[0]);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+
+    fetch("https://my-brand-production-1062.up.railway.app/api/blog/add/", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+
+            console.log(result)
+            document.getElementById('title').value = '',
+                document.getElementById('body').value = '',
+                document.getElementById('photo').value = ''
+        })
+        .catch(error => console.log('error', error));
+
+
+
+
+    return false
+
+
+}
+removeData = () => {
+    localStorage.splash('articles');
+};
+
+
+
+
+
+
+
+
+
+
+
 
       const updateArticle = JSON.parse(localStorage.getItem("updateArticle"));
 
@@ -169,7 +204,6 @@
           .getElementById("newArticles")
           .addEventListener("submit", (event) => {
             event.preventDefault();
-            submits();
           });
       } else {
         document.getElementById("cover").style.display = "none";
@@ -219,6 +253,9 @@
               });
           });
       }
+
+
+       
 
       // document.getElementById('newArticles').addEventListener('submit',update())
     </script>
