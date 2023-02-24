@@ -20,7 +20,7 @@ document.getElementById("userDiv").addEventListener('click', showUserProfile);
 
 function logOut(){
     localStorage.removeItem("tempLog");
-    location.href="./login.html";
+    location.href="./index.html";
 
 }
 
